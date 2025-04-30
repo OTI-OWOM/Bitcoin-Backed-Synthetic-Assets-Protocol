@@ -21,3 +21,65 @@
 (define-constant ORACLE-PRICE-EXPIRY u3600) ;; 1 hour
 (define-constant COOLDOWN-PERIOD u86400) ;; 24 hours
 (define-constant PRECISION-FACTOR u1000000) ;; 6 decimals
+
+
+;; Supported Asset Types
+(define-map supported-assets
+  { asset-id: uint }
+  {
+    name: (string-ascii 24),
+    is-active: bool,
+    max-supply: uint,
+    current-supply: uint,
+    collateral-ratio: uint
+  }
+)
+
+;; Vaults - where users lock their BTC collateral to mint synthetic assets
+(define-map vaults
+  { owner: principal, asset-id: uint }
+  {
+    collateral-amount: uint,
+    debt-amount: uint,
+    last-update: uint,
+    liquidation-in-progress: bool
+  }
+)
+
+;; Price Oracle data
+(define-map asset-prices
+  { asset-id: uint }
+  {
+    price: uint,
+    last-update: uint,
+    source: principal
+  }
+)
+
+;; Liquidity Pools
+(define-map liquidity-pools
+  { asset-id: uint }
+  {
+    stx-balance: uint,
+    synthetic-balance: uint,
+    total-shares: uint
+  }
+)
+
+;; LP Token balances
+(define-map lp-balances
+  { asset-id: uint, owner: principal }
+  { shares: uint }
+)
+
+;; User Balances for synthetic assets
+(define-map synthetic-asset-balances
+  { asset-id: uint, owner: principal }
+  { balance: uint }
+)
+
+;; Protocol Parameters controlled by governance
+(define-data-var protocol-paused bool false)
+(define-data-var governance-address principal tx-sender)
+(define-data-var treasury-address principal tx-sender)
+(define-data-var total-protocol-fees uint u0)
