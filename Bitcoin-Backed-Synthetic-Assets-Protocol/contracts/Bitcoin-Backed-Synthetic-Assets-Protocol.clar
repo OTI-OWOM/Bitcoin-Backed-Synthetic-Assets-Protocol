@@ -83,3 +83,32 @@
 (define-data-var governance-address principal tx-sender)
 (define-data-var treasury-address principal tx-sender)
 (define-data-var total-protocol-fees uint u0)
+
+(define-public (set-governance-address (new-address principal))
+  (begin
+    (asserts! (is-eq tx-sender (var-get governance-address)) ERR-NOT-AUTHORIZED)
+    (ok (var-set governance-address new-address))
+  )
+)
+
+(define-public (set-treasury-address (new-address principal))
+  (begin
+    (asserts! (is-eq tx-sender (var-get governance-address)) ERR-NOT-AUTHORIZED)
+    (ok (var-set treasury-address new-address))
+  )
+)
+
+(define-public (pause-protocol)
+  (begin
+    (asserts! (is-eq tx-sender (var-get governance-address)) ERR-NOT-AUTHORIZED)
+    (ok (var-set protocol-paused true))
+  )
+)
+
+(define-public (resume-protocol)
+  (begin
+    (asserts! (is-eq tx-sender (var-get governance-address)) ERR-NOT-AUTHORIZED)
+    (ok (var-set protocol-paused false))
+  )
+)
+
