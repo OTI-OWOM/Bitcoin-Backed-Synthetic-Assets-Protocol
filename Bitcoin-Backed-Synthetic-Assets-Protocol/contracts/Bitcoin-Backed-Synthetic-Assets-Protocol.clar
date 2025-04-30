@@ -178,4 +178,12 @@
   (get-price u0)
 )
 
+(define-private (is-asset-supported (asset-id uint))
+  (match (map-get? supported-assets { asset-id: asset-id })
+    asset-data (get is-active asset-data)
+    false
+  )
+)
+
+
 
