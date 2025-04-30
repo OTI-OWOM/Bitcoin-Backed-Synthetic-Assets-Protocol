@@ -239,3 +239,22 @@
     last-rate-update: uint
   }
 )
+
+;; Asset lock settings for time-locked assets
+(define-map asset-locks
+  { owner: principal, asset-id: uint }
+  {
+    locked-amount: uint,
+    unlock-height: uint
+  }
+)
+
+;; Oracle Access Control
+(define-map authorized-oracles
+  { address: principal }
+  { 
+    is-active: bool,
+    asset-types: (list 10 uint)
+  }
+)
+
