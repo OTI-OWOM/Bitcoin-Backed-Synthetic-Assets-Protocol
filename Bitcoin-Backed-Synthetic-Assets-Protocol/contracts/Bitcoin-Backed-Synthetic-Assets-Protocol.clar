@@ -185,5 +185,37 @@
   )
 )
 
+;; New data variables
+(define-data-var last-yield-distribution uint u0)
+(define-data-var yield-fee-percentage uint u20) ;; 2% default yield fee
+(define-data-var total-staked-tokens uint u0)
+(define-data-var proposal-counter uint u0)
 
+;; New data maps for additional features
+;; Staking system
+(define-map staked-balances
+  { owner: principal }
+  {
+    amount: uint,
+    lock-until: uint,
+    accumulated-yield: uint,
+    last-claim: uint
+  }
+)
+
+;; Governance proposals
+(define-map governance-proposals
+  { proposal-id: uint }
+  {
+    proposer: principal,
+    description: (string-utf8 256),
+    function-call: (buff 128),
+    votes-for: uint,
+    votes-against: uint,
+    start-block: uint,
+    end-block: uint,
+    executed: bool,
+    execution-block: uint
+  }
+)
 
